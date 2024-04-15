@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ваш заказ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        p {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 10px;
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #333;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ваш заказ:</h1>
+    <ul>
+        {% for dish in order %}
+            <li>{{ dish.name }} - {{ dish.price }}$</li>
+        {% endfor %}
+    </ul>
+    <p>Итого: {{ total_price }}$</p>
+    <a href="{{ url_for('clear_order') }}">Очистить заказ</a>
+    <a href="{{ url_for('pay_order') }}">Оплатить</a>
+    <a href="{{ url_for('menu') }}">Вернуться на главную</a>
+</body>
+</html>

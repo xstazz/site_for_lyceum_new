@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Меню ресторана</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            position: relative; /* Установка позиции relative для body */
+        }
+        .button1 {
+            background-color: #333;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            position: absolute;
+            top: 20px; /* Отступ от верхнего края */
+            right: 20px; /* Отступ от правого края */
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+    <h1>Меню ресторана</h1>
+    <a href="profile" class="button1">Профиль</a>
+    <ul>
+        {% for dish in menu %}
+            <li>
+                <span>{{ dish.name }} - {{ dish.price }}$</span>
+                <a href="{{ url_for('add_to_order', menu_id=dish.id) }}">Добавить в заказ</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Ваш заказ:</h2>
+    <a href="{{ url_for('view_order') }}">Посмотреть заказ</a>
+</body>
+</html>
