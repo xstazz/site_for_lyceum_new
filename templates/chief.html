@@ -1,3 +1,4 @@
+<!-- chief.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -26,6 +27,7 @@
                         <input type="text" class="form-control" name="new_price" value="{{ item.price }}">
                     </div>
                     <button type="submit" class="btn btn-primary">Обновить</button>
+                    <a href="{{ url_for('delete_dish', dish_id=item.id) }}" class="btn btn-danger ml-2">Удалить</a>
                 </form>
             </div>
         </div>

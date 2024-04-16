@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
 import sqlite3
+
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -224,6 +225,8 @@ def update_dish():
 
     flash("Товар успешно обновлен.", 'success')
     return redirect(url_for('chief'))
+
+
 @app.route('/add_new_menu', methods=['GET', 'POST'])
 def add_new_menu():
     if 'username' in session and session['username'] == chef_username:
@@ -242,6 +245,20 @@ def add_new_menu():
             return redirect(url_for('chief'))
         else:
             return render_template('add_new_menu.html')
+    else:
+        flash("Доступ запрещен.", 'error')
+        return redirect(url_for('index'))
+
+
+@app.route('/delete_dish/<int:dish_id>', methods=['GET'])
+def delete_dish(dish_id):
+    if 'username' in session and session['username'] == chef_username:
+        for idx, dish in enumerate(menu_list):
+            if dish['id'] == dish_id:
+                del menu_list[idx]
+                flash("Блюдо успешно удалено.", 'success')
+                break
+        return redirect(url_for('chief'))
     else:
         flash("Доступ запрещен.", 'error')
         return redirect(url_for('index'))
