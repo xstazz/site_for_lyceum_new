@@ -22,7 +22,6 @@ chef_password = 'qwerty'
 conn = sqlite3.connect('users.db')
 cursor = conn.cursor()
 
-# Создаем таблицу пользователей (если она не существует)
 cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   username TEXT UNIQUE NOT NULL,
@@ -47,17 +46,16 @@ def login_post():
         if username == admin_username and password == admin_password:
             session['username'] = username
             flash(f"Добро пожаловать, {username}!", 'success')
-            return redirect(url_for('admin_panel'))  # Перенаправляем на админ панель
+            return redirect(url_for('admin_panel'))
 
         elif username == chef_username and password == chef_password:
             session['username'] = username
             flash(f"Добро пожаловать, {username}!", 'success')
-            return redirect(url_for('chief'))  # Перенаправляем на страницу меню для повара
+            return redirect(url_for('chief'))
 
         conn = sqlite3.connect('users.db')
         cursor = conn.cursor()
 
-        # Поиск пользователя в базе данных
         cursor.execute("SELECT username, password FROM users WHERE username = ?", (username,))
         user = cursor.fetchone()
 
@@ -87,7 +85,6 @@ def register():
             conn = sqlite3.connect('users.db')
             cursor = conn.cursor()
 
-            # Вставляем данные пользователя в базу данных
             cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
                            (username, email, password))
 
@@ -106,15 +103,12 @@ def admin_panel():
         conn = sqlite3.connect('orders.db')
         cursor = conn.cursor()
 
-        # Выполняем SQL-запрос для подсчета записей в таблице
         cursor.execute("SELECT COUNT(*) FROM orders")
 
-        # Извлекаем результат запроса
         count = cursor.fetchone()[0]
 
         conn.close()
 
-        # Проверяем, есть ли данные в таблице
         if count > 0:
             conn = sqlite3.connect('orders.db')
             cursor = conn.cursor()
@@ -157,7 +151,6 @@ def view_order():
 
 @app.route('/pay_order')
 def pay_order():
-    # Сохраняем данные о заказе в базу данных
     conn = sqlite3.connect('orders.db')
     cursor = conn.cursor()
     for dish in order:
@@ -216,7 +209,6 @@ def update_dish():
     new_name = request.form['new_name']
     new_price = float(request.form['new_price'])
 
-    # Find the dish in the menu_list and update its name and price
     for dish in menu_list:
         if dish['id'] == dish_id:
             dish['name'] = new_name
@@ -234,10 +226,8 @@ def add_new_menu():
             new_name = request.form['new_name']
             new_price = float(request.form['new_price'])
 
-            # Generate a unique ID for the new dish
             new_id = max(dish['id'] for dish in menu_list) + 1 if menu_list else 1
 
-            # Create a dictionary for the new dish and add it to the menu_list
             new_dish = {"id": new_id, "name": new_name, "price": new_price}
             menu_list.append(new_dish)
 

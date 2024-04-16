@@ -1,31 +1,30 @@
-<!-- add_new_menu.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить новое блюдо</title>
-    <!-- Включаем Bootstrap CSS с CDN -->
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Добавить новое блюдо</h1>
-        <form action="{{ url_for('add_new_menu') }}" method="post">
-            <div class="form-group">
-                <label for="new_name">Название блюда:</label>
-                <input type="text" class="form-control" id="new_name" name="new_name" required>
-            </div>
-            <div class="form-group">
-                <label for="new_price">Цена:</label>
-                <input type="number" class="form-control" id="new_price" name="new_price" min="0" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Добавить</button>
-        </form>
-    </div>
-    <!-- Включаем Bootstrap JS и зависимости с CDN (по желанию) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="container mt-5">
+    <h1 class="mb-4">Добавить новое блюдо</h1>
+    <form action="{{ url_for('add_new_menu') }}" method="post">
+        <div class="form-group">
+            <label for="new_name">Название блюда:</label>
+            <input type="text" class="form-control" id="new_name" name="new_name" required>
+        </div>
+        <div class="form-group">
+            <label for="new_price">Цена:</label>
+            <input type="number" class="form-control" id="new_price" name="new_price" min="0" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
