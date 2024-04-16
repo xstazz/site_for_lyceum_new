@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель повара</title>
+    <!-- Включаем Bootstrap CSS с CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Панель повара</h1>
+
+        <!-- Отображаем пункты меню с формами для редактирования -->
+        {% for item in menu %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="{{ url_for('update_dish') }}" method="post">
+                    <input type="hidden" name="dish_id" value="{{ item.id }}">
+                    <div class="form-group">
+                        <label for="new_name">Новое название:</label>
+                        <input type="text" class="form-control" name="new_name" value="{{ item.name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_price">Новая цена:</label>
+                        <input type="text" class="form-control" name="new_price" value="{{ item.price }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Обновить</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Кнопка добавления блюда -->
+        <div class="text-center">
+            <a href="{{ url_for('add_new_menu') }}" class="btn btn-success">Добавить блюдо</a>
+        </div>
+
+        <!-- Кнопка выхода из аккаунта -->
+        <div class="text-center mt-3">
+            <a href="/login" class="btn btn-danger">Выход из аккаунта</a>
+        </div>
+    </div>
+
+    <!-- Включаем Bootstrap JS и зависимости с CDN (по желанию) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
