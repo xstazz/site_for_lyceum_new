@@ -224,6 +224,27 @@ def update_dish():
 
     flash("Товар успешно обновлен.", 'success')
     return redirect(url_for('chief'))
+@app.route('/add_new_menu', methods=['GET', 'POST'])
+def add_new_menu():
+    if 'username' in session and session['username'] == chef_username:
+        if request.method == 'POST':
+            new_name = request.form['new_name']
+            new_price = float(request.form['new_price'])
+
+            # Generate a unique ID for the new dish
+            new_id = max(dish['id'] for dish in menu_list) + 1 if menu_list else 1
+
+            # Create a dictionary for the new dish and add it to the menu_list
+            new_dish = {"id": new_id, "name": new_name, "price": new_price}
+            menu_list.append(new_dish)
+
+            flash("Новое блюдо успешно добавлено.", 'success')
+            return redirect(url_for('chief'))
+        else:
+            return render_template('add_new_menu.html')
+    else:
+        flash("Доступ запрещен.", 'error')
+        return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
