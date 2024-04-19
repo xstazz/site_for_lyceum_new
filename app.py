@@ -11,7 +11,7 @@ menu_list = [
     {"id": 2, "name": "Паста", "price": 8},
     {"id": 3, "name": "Салат", "price": 5},
 ]
-
+users_order = {}
 order = []
 
 admin_username = 'admin'
@@ -119,36 +119,56 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/admin', methods=['GET'])
+@app.route('/admin', methods=['GET', 'POST'])
 def admin_panel():
     if 'username' in session and session['username'] == admin_username:
-        conn = sqlite3.connect('orders.db')
-        cursor = conn.cursor()
-
-        # Выполняем SQL-запрос для подсчета записей в таблице
-        cursor.execute("SELECT COUNT(*) FROM orders")
-
-        # Извлекаем результат запроса
-        count = cursor.fetchone()[0]
-
-        conn.close()
-
-        # Проверяем, есть ли данные в таблице
-        if count > 0:
+        if request.method == 'POST':
             conn = sqlite3.connect('orders.db')
             cursor = conn.cursor()
 
-            cursor.execute("""SELECT * from orders""")
-            data = cursor.fetchall()
-            conn.execute('DELETE FROM orders;', );
-            conn.commit()
+            cursor.execute("SELECT * from orders")
+            orders = cursor.fetchall()
+
             conn.close()
-            return render_template('admin_panel.html', data=data)
+            flash("Заказы успешно отправлены", 'success')  # Выводим сообщение об успешной отправке заказов
+            return render_template('admin_panel.html', data=[])  # Отображаем пустую админскую панель
         else:
-            return render_template('admin_panel.html')
+            conn = sqlite3.connect('orders.db')
+            cursor = conn.cursor()
+
+            # Выполняем SQL-запрос для подсчета записей в таблице
+            cursor.execute("SELECT COUNT(*) FROM orders")
+
+            # Извлекаем результат запроса
+            count = cursor.fetchone()[0]
+
+            conn.close()
+
+            # Проверяем, есть ли данные в таблице
+            if count > 0:
+                conn = sqlite3.connect('orders.db')
+                cursor = conn.cursor()
+
+                cursor.execute("""SELECT * from orders""")
+                data = cursor.fetchall()
+                conn.execute('DELETE FROM orders;', );
+                conn.commit()
+                conn.close()
+                return render_template('admin_panel.html', data=data)
+            else:
+                return render_template('admin_panel.html')
     else:
         flash("Доступ к админ панели запрещен.", 'error')
         return redirect(url_for('index'))
+
+
+@app.route('/active_orders')
+def active_orders():
+    global users_order  # Объявляем глобальную переменную
+    orders = users_order.values()  # Получаем данные из словаря для отображения
+    users_order = {}  # Очищаем словарь после отображения данных
+
+    return render_template('active_order.html', orders=orders)
 
 
 @app.route('/menu')
@@ -176,6 +196,7 @@ def view_order():
 
 @app.route('/pay_order')
 def pay_order():
+    global users_order  # Объявляем глобальную переменную
 
     conn = sqlite3.connect('orders.db')
     cursor = conn.cursor()
@@ -184,6 +205,8 @@ def pay_order():
                 INSERT INTO orders (dish_id, dish_name, dish_price)
                 VALUES (?, ?, ?)
             ''', (dish['id'], dish['name'], dish['price']))
+        # Добавляем данные в словарь перед удалением из order
+        users_order[dish['id']] = {'name': dish['name'], 'price': dish['price']}
     conn.commit()
     conn.close()
     order.clear()
@@ -192,6 +215,11 @@ def pay_order():
 
 @app.route('/clear_order')
 def clear_order():
+    global users_order  # Объявляем глобальную переменную
+
+    # Добавляем данные из order в словарь перед удалением
+    for dish in order:
+        users_order[dish['id']] = {'name': dish['name'], 'price': dish['price']}
     order.clear()
     return redirect(url_for('menu'))
 
