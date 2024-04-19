@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Активные заказы</title>
-
+    <!-- Подключаем Bootstrap CSS с CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Ваши стили */
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -13,24 +16,36 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col">Блюдо</th>
-            <th scope="col">Цена</th>
-        </tr>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Название</th>
+                <th scope="col">Цена</th>
+            </tr>
         </thead>
         <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order[0] }}</td>
-            <td>{{ order[1] }}</td>
-        </tr>
-        {% endfor %}
+            {% for order in orders %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ order[1]['name'] }}</td>
+                <td>{{ order[1]['price'] }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
+
+    <!-- Кнопка "Выполнить заказы" -->
+    <form action="{{ url_for('complete_orders') }}" method="POST">
+        <button type="submit" class="btn btn-primary">Выполнить заказы</button>
+    </form>
+
+    <!-- Кнопка возврата на страницу повара -->
+    <a href="{{ url_for('chief') }}" class="btn btn-secondary">Вернуться обратно</a>
 </div>
 
+<!-- Подключаем jQuery, Popper.js и Bootstrap JS с CDN -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Ваши скрипты -->
 </body>
 </html>
