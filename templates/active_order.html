@@ -33,10 +33,10 @@
         </tbody>
     </table>
 
-    <!-- Кнопка "Выполнить заказы" -->
     <form action="{{ url_for('complete_orders') }}" method="POST">
         <button type="submit" class="btn btn-primary">Выполнить заказы</button>
     </form>
+
 
     <!-- Кнопка возврата на страницу повара -->
     <a href="{{ url_for('chief') }}" class="btn btn-secondary">Вернуться обратно</a>
