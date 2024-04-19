@@ -14,6 +14,7 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
         h1 {
             color: #333;
@@ -22,20 +23,38 @@
             color: #666;
             font-size: 16px;
         }
-        .button-container {
+        img {
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .upload-form {
             margin-top: 20px;
         }
-        .button {
+        .upload-form input[type="file"] {
+            display: none;
+        }
+        .upload-form label {
+            background-color: #007bff;
+            color: #fff;
             padding: 10px 20px;
-            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; /* Добавлено для отступа */
+        }
+        .upload-form label:hover {
+            background-color: #0056b3;
+        }
+        .upload-button, .menu-button, .logout-button {
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             background-color: #007bff;
             color: #fff;
             text-decoration: none;
             cursor: pointer;
+            margin-top: 10px; /* Добавлено для отступа */
         }
-        .button:hover {
+        .upload-button:hover, .menu-button:hover, .logout-button:hover {
             background-color: #0056b3;
         }
     </style>
@@ -43,14 +62,21 @@
 <body>
     <h1>Профиль пользователя</h1>
     <div class="profile-info">
+        <img src="{{ url_for('static', filename='avatars/' + username + '.jpg') }}" alt="Аватарка" width="150">
+        <!-- Загрузка аватарки -->
+        <form action="/upload_avatar" method="post" enctype="multipart/form-data" class="upload-form">
+            <input type="file" name="avatar" id="avatar">
+            <label for="avatar">Выбрать файл</label>
+            <button type="submit" class="upload-button">Загрузить аватарку</button>
+        </form>
         <p><strong>Имя пользователя:</strong> {{ username }}</p>
         <p><strong>Адрес электронной почты:</strong> {{ email }}</p>
-
+        <!-- Добавьте другие данные профиля здесь, например, телефон и т.д. -->
     </div>
 
     <div class="button-container">
-        <a href="/menu" class="button">Вернуться к меню</a>
-        <a href="/login" class="button">Выход из аккаунта</a>
+        <a href="/menu" class="menu-button">Вернуться к меню</a>
+        <a href="/login" class="logout-button">Выход из аккаунта</a>
     </div>
 </body>
 </html>
