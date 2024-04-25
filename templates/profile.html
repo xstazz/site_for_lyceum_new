@@ -63,7 +63,6 @@
     <h1>Профиль пользователя</h1>
     <div class="profile-info">
         <img src="{{ url_for('static', filename='avatars/' + username + '.jpg') }}" alt="Аватарка" width="150">
-        <!-- Загрузка аватарки -->
         <form action="/upload_avatar" method="post" enctype="multipart/form-data" class="upload-form">
             <input type="file" name="avatar" id="avatar">
             <label for="avatar">Выбрать файл</label>
@@ -71,7 +70,6 @@
         </form>
         <p><strong>Имя пользователя:</strong> {{ username }}</p>
         <p><strong>Адрес электронной почты:</strong> {{ email }}</p>
-        <!-- Добавьте другие данные профиля здесь, например, телефон и т.д. -->
     </div>
 
     <div class="button-container">
