@@ -1,6 +1,7 @@
 import os
 import sqlite3
-
+import requests
+import g4f
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 
 app = Flask(__name__)
@@ -10,6 +11,13 @@ menu_list = [
     {"id": 1, "name": "Пицца", "price": 10},
     {"id": 2, "name": "Паста", "price": 8},
     {"id": 3, "name": "Салат", "price": 5},
+    {"id": 4, "name": "Паста Карбонара", "price": 5.2},
+    {"id": 5, "name": "Круасан с шоколадом", "price": 2},
+    {"id": 6, "name": "Шашлык", "price": 7},
+    {"id": 7, "name": "Кофе", "price": 1.5},
+    {"id": 8, "name": "Чай", "price": 1.5},
+    {"id": 9, "name": "Сок апельсиновый", "price": 2},
+    {"id": 10, "name": "Шокобон", "price": 150},
 ]
 users_order = {}
 order = []
@@ -294,6 +302,28 @@ def delete_dish(dish_id):
                 flash("Блюдо успешно удалено.", 'success')
                 break
         return redirect(url_for('chief'))
+    else:
+        flash("Доступ запрещен.", 'error')
+        return redirect(url_for('index'))
+
+
+def generate_menu_from_prompt(prompt):
+    response = g4f.ChatCompletion.create(
+        model=g4f.models.blackbox,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response
+
+
+@app.route('/generate_menu', methods=['GET', 'POST'])
+def generate_menu():
+    if 'username' in session and session['username'] == chef_username:
+        if request.method == 'POST':
+            prompt = request.form['recipe-input']
+            generated_menu = generate_menu_from_prompt(prompt)
+            return render_template('menu_generator.html', generated_menu=generated_menu)
+        else:
+            return render_template('menu_generator.html')
     else:
         flash("Доступ запрещен.", 'error')
         return redirect(url_for('index'))
