@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генерация меню для шефа</title>
+    <title>Генератор меню</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Генерация меню для шефа</h1>
-        <form>
+        <form action="{{ url_for('generate_menu') }}" method="POST">
             <div class="form-group">
                 <label for="recipe-input">Введите запрос для генерации меню:</label>
-                <input type="text" class="form-control" id="recipe-input" placeholder="Например: Предложите меню для ужина">
+                <input type="text" class="form-control" id="recipe-input" name="recipe-input" placeholder="Например: Предложите меню для ужина">
             </div>
             <button type="submit" class="btn btn-primary">Сгенерировать меню</button>
         </form>
         <div id="menu-container" class="mt-4">
+            {% if generated_menu %}
+            <h4>Результат генерации меню:</h4>
+            <textarea class="form-control" id="menuResult" rows="5" readonly>{{ generated_menu }}</textarea>
+            {% endif %}
         </div>
         <a href="{{ url_for('chief') }}" class="btn btn-secondary">Вернуться обратно</a>
     </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
