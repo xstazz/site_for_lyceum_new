@@ -321,9 +321,9 @@ def generate_menu():
         if request.method == 'POST':
             prompt = request.form['recipe-input']
             generated_menu = generate_menu_from_prompt(prompt)
-            return render_template('menu_generator.html', generated_menu=generated_menu)
+            return render_template('generate_menu.html', generated_menu=generated_menu)
         else:
-            return render_template('menu_generator.html')
+            return render_template('generate_menu.html')
     else:
         flash("Доступ запрещен.", 'error')
         return redirect(url_for('index'))
