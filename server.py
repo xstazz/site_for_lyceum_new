@@ -3,6 +3,7 @@ import sqlite3
 import requests
 import g4f
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+import re
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -115,21 +116,41 @@ def register():
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        if password != confirm_password:
+
+        # Проверка на пустые поля
+        if not username or not email or not password or not confirm_password:
+            flash("Все поля должны быть заполнены.", 'error')
+        # Валидация данных формы
+        elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            flash("Некорректный email. Пожалуйста, попробуйте снова.", 'error')
+        elif password != confirm_password:
             flash("Пароли не совпадают. Пожалуйста, попробуйте снова.", 'error')
         else:
-            conn = sqlite3.connect('users.db')
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-                           (username, email, password))
+            try:
+                # Подключение к базе данных
+                conn = sqlite3.connect('users.db')
+                cursor = conn.cursor()
 
-            conn.commit()
-            conn.close()
+                # Проверка, существует ли уже пользователь с таким именем или email
+                cursor.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
+                existing_user = cursor.fetchone()
+                if existing_user:
+                    flash("Пользователь с таким именем или email уже существует.", 'error')
+                else:
+                    # Вставка нового пользователя в базу данных
+                    cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                                   (username, email, password))
+                    conn.commit()
+                    flash(f"Регистрация успешна для пользователя: {username}", 'success')
+                    return redirect(url_for('menu'))
 
-            flash(f"Регистрация успешна для пользователя: {username}", 'success')
-            return redirect(url_for('menu'))
+            except sqlite3.Error as e:
+                flash(f"Ошибка базы данных: {e}", 'error')
+            finally:
+                conn.close()
 
     return render_template('register.html')
+
 
 
 @app.route('/admin_panel')
