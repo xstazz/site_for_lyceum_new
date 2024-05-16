@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль пользователя</title>
     <style>
         body {
@@ -8,9 +10,13 @@
             margin: 0;
             padding: 20px;
             background-color: #f2f2f2;
+            background-image: url('static/menu.jpg'); /* Изображение на заднем плане */
+            background-size: cover; /* Растягивает изображение на всю область */
+            background-position: center; /* Центрирует изображение */
+            background-repeat: no-repeat; /* Запрещает повторение изображения */
         }
         .profile-info {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.5); /* Прозрачность для блока информации */
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -18,6 +24,10 @@
         }
         h1 {
             color: #333;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
         }
         p {
             color: #666;
@@ -34,21 +44,21 @@
             display: none;
         }
         .upload-form label {
-            background-color: #007bff;
+            background-color: #574e53;
             color: #fff;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            margin-right: 10px; /* Добавлено для отступа */
+            margin-right: 10px;
         }
         .upload-form label:hover {
-            background-color: #0056b3;
+            background-color: #574e53;
         }
         .upload-button, .menu-button, .logout-button {
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            background-color: #007bff;
+            background-color: #574e53;
             color: #fff;
             text-decoration: none;
             cursor: pointer;
@@ -56,6 +66,10 @@
         }
         .upload-button:hover, .menu-button:hover, .logout-button:hover {
             background-color: #0056b3;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>

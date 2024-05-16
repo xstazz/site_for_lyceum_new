@@ -9,6 +9,16 @@
             padding: 0;
             background-color: #f2f2f2;
         }
+                        .background-image {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: -1; /* Ensure the image is behind other content */
+            pointer-events: none; /* Prevents the image from interfering with interaction */
+            opacity: 1; /* Optionally reduce the opacity for a subtle effect */
+        }
         h1 {
             background-color: #333;
             color: #fff;
@@ -30,6 +40,7 @@
         p {
             font-weight: bold;
             margin-top: 20px;
+            color: #fff;
         }
         a {
             text-decoration: none;
@@ -59,5 +70,6 @@
     <a href="{{ url_for('clear_order') }}">Очистить заказ</a>
     <a href="{{ url_for('pay_order') }}">Оплатить</a>
     <a href="{{ url_for('menu') }}">Вернуться на главную</a>
+<img src="static/menu.jpg" class="background-image" alt="Background Image">
 </body>
 </html>

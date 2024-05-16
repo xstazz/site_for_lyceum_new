@@ -4,6 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Активные заказы</title>
+        <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        }
+        .background-image {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: -1; /* Ensure the image is behind other content */
+            pointer-events: none; /* Prevents the image from interfering with interaction */
+            opacity: 1; /* Optionally reduce the opacity for a subtle effect */
+        }
+        h1 {
+            background-color: #d94cd4;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        form {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            margin: 20px auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        input[type="submit"] {
+            background-color: #d94cd4;
+            opacity: 0.5;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #d94cd4;
+            opacity: 1;
+        }
+        p {
+            margin-top: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #d94cd4;
+        }
+    </style>
     <!-- Подключаем Bootstrap CSS с CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -43,6 +114,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<img src="static/chef.jpg" class="background-image" alt="Background Image">
 <!-- Ваши скрипты -->
 </body>
 </html>
